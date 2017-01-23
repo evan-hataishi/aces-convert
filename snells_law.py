@@ -12,13 +12,14 @@ def snellsLaw(H1, T, d1, alpha1, cotphi, d2):
     #    print "Error: Known wave broken"
     #    return;
     #else :
-    output.Hb = d1 * 0.78;
+    output.Hb = d1 * 0.78
 
-    %determine known wave properties
-    output.c1, output.c0, output.cg1, output.cg0, output.k1, output.L1, output.L0, reldep1 = lwtgen(d1, T, g)
-    [E1,P1,Ur1,setdown1]=LWTTWM(cg1,d1,H1,L1,reldep1,rho,g,k1);
+    % determine known wave properties
+    output.c1, output.c0, output.cg1, output.cg0, output.k1, output.L1, output.L0, reldep1 = lwtgen(output.d1, output.T, g)
+    # setdown1 not used wtf
+    output.E1, output.P1, output.Ur1, setdown1 = lwttm(output.cg1, output.d1, output.H1, output.L1, reldep1, rho, g, output.k1);
 
-    [steep,maxstp]=ERRSTP(H1,d1,L1);
+    # [steep,maxstp]=ERRSTP(H1,d1,L1);
     # assert(steep<maxstp,'Error: Known wave unstable (Max: %0.4f, [H/L] = %0.4f)',maxstp,steep')
 
     %determine deepwater wave properties
@@ -30,9 +31,11 @@ def snellsLaw(H1, T, d1, alpha1, cotphi, d2):
 
     # assert(HL<(1/7),'Error: Deepwater wave unstable, [H0/L0] > (1/7)')
 
-    %determine subject wave properties
-    [c2,c0,cg2,cg0,k2,L2,L0,reldep2]=LWTGEN(d2,T,g)
-    output.alpha2, output.H2, kr,ks = lwttws(alpha0,c2,cg2,c0,H0);
+    % determine subject wave properties
+    output.c2, output.c0, output.cg2, output.cg0, output.k2, output.L2, output.L0, reldep2 = lwtgen(output.d2, output.T, g)
+    # kr, ks not used wtf
+    output.alpha2, output.H2, kr, ks = lwttws(alpha0,c2,cg2,c0,H0);
+    # setdown2 not used wtf
     [E2,P2,Ur2,setdown2]=LWTTWM(cg2, d2, H2, L2, reldep2, rho, g, k2);
 
     [Hb,db]=ERRWAVBRK3(H0,L0,T,m);
