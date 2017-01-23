@@ -49,3 +49,15 @@ def lwttws(alpha0,c2,cg2,c0,H0):
     H = H0 * ksf * krf
 
     return alpha, H, krf, ksf
+
+def lwttwm(cg, h, H, L, reldep, rho, g, k):
+    E = (1 / 8) * rho * g * (H^2)
+    P = E * cg
+    Ur = (H * (L^2)) / (h^3)
+
+    if reldep < 0.5:
+        setdown = (k * H^2) / (8 * math.sinh(2 * k * h))
+    else
+        setdown = 0
+
+    return
